@@ -16,12 +16,12 @@ class Platformer extends Phaser.Scene {
     create() {
         // Create a new tilemap game object which uses 18x18 pixel tiles, and is
         // 45 tiles wide and 25 tiles tall.
-        this.map = this.add.tilemap("platformer-level-1", 18, 18, 45, 25);
+        this.map = this.add.tilemap("platformer-level-1", 16, 16, 300, 30);
 
         // Add a tileset to the map
         // First parameter: name we gave the tileset in Tiled
         // Second parameter: key for the tilesheet (from this.load.image in Load.js)
-        this.tileset = this.map.addTilesetImage("kenny_tilemap_packed", "tilemap_tiles");
+        this.tileset = this.map.addTilesetImage("monochrome_tilemap_packed", "tilemap_tiles");
 
         // Create a layer
         this.groundLayer = this.map.createLayer("Ground-n-Platforms", this.tileset, 0, 0);
@@ -41,7 +41,7 @@ class Platformer extends Phaser.Scene {
         this.coins = this.map.createFromObjects("Objects", {
             name: "coin",
             key: "tilemap_sheet",
-            frame: 151
+            frame: 3
         });
 
         // Add turn into Arcade Physics here
@@ -92,9 +92,9 @@ class Platformer extends Phaser.Scene {
         my.vfx.walking.stop();
         
         // camera 
-        this.cameras.main.setBounds(0, 0, this.map.widthInPixels, this.map.heightInPixels);
+        this.cameras.main.setBounds(0, 0, 4800, 480);
         this.cameras.main.startFollow(my.sprite.player, true, 0.25, 0.25); // (target, [,roundPixels][,lerpX][,lerpY])
-        this.cameras.main.setDeadzone(50, 50);
+        this.cameras.main.setDeadzone(30, 30);
         this.cameras.main.setZoom(this.SCALE);
 
     }
@@ -104,9 +104,9 @@ class Platformer extends Phaser.Scene {
             my.sprite.player.setAccelerationX(-this.ACCELERATION);
             my.sprite.player.resetFlip();
             my.sprite.player.anims.play('walk', true);
+
             // particle following left
             my.vfx.walking.startFollow(my.sprite.player, my.sprite.player.displayWidth/2-10, my.sprite.player.displayHeight/2-5, false);
-
             my.vfx.walking.setParticleSpeed(this.PARTICLE_VELOCITY, 0);
 
             // Only play smoke effect if touching the ground
@@ -121,9 +121,9 @@ class Platformer extends Phaser.Scene {
             my.sprite.player.setAccelerationX(this.ACCELERATION);
             my.sprite.player.setFlip(true, false);
             my.sprite.player.anims.play('walk', true);
+
             // particle following right
             my.vfx.walking.startFollow(my.sprite.player, my.sprite.player.displayWidth/2-15, my.sprite.player.displayHeight/2-5, false);
-
             my.vfx.walking.setParticleSpeed(this.PARTICLE_VELOCITY, 0);
 
             // Only play smoke effect if touching the ground
